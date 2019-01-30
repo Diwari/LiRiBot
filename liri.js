@@ -71,8 +71,29 @@ if(userSearch === undefined){
     });
 };
 
-function doWhatItSay(userSearch){
+function doWhatItSay(){
     
+    fs.readFile("random.txt", "utf8", function(error, data){
+        if(error){
+            return console.log(error);
+        }
+        var dataArr = data.split(",");
+        //command
+        userCommand = dataArr[0]
+        //search
+        userSearch = dataArr[1]
+        if(userCommand === "spotify-this-song" ){
+            getSong(userSearch);
+        } else if( userCommand === "concert this" ){
+            getBand(userSearch);
+        } else if( userCommand === "movie-this"){
+            getMovie(userSearch);
+        }
+        
+
+
+
+    })
 
 }
 
@@ -90,7 +111,7 @@ if( userCommand === "concert-this"){
 
 }else if(userCommand === "do-what-it-says"){
     console.log("Do-what-it-says Hit");
-    doWhatItSay(userSearch)
+    doWhatItSay(userCommand);
 
 }else{
     console.log("Please input a valid perameter");
