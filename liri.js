@@ -11,7 +11,7 @@ var fs = require("fs");
 let spotify = new Spotify(keys.spotify);
 
 let userCommand = process.argv[2];
-let userSearch = process.argv[3];
+let userSearch = process.argv.slice(3).join(" ");
 
 
 
@@ -19,9 +19,11 @@ let userSearch = process.argv[3];
 function getBand(userSearch){
     let bandUrl = "https://rest.bandsintown.com/artists/" + userSearch + "/events?app_id=codingbootcamp";
     axios.get(bandUrl).then(function(response){
+        console.log('--------------------');
         console.log("Venue: " + response.data[0].venue.name)
-        console.log("Date: " + response.data[0].datetime)
+        console.log("Date: " + moment(response.data[0].datetime).format("MM/DD/YYYY"));
         console.log("City : " + response.data[0].venue.city);
+        console.log('--------------------');
     });
 }
 function getSong(userSearch){
@@ -59,7 +61,7 @@ if(userSearch === undefined){
     let omdbUrl = "http://www.omdbapi.com/?t=" + userSearch + "&y=&plot=short&apikey=trilogy";
     
     axios.get(omdbUrl).then(function(response){
-        
+        console.log('--------------------');
         console.log("Movie Title: " + response.data.Title);
         console.log("Release Date: " + response.data.Year);
         console.log("imdbRating: " + response.data.imdbRating);
@@ -68,6 +70,7 @@ if(userSearch === undefined){
         console.log("Language: " + response.data.Language);
         console.log("Plot: " + response.data.Plot);
         console.log("Staring: " + response.data.Actors);
+        console.log('--------------------');
     });
 };
 
@@ -84,7 +87,8 @@ function doWhatItSay(){
         userSearch = dataArr[1]
         if(userCommand === "spotify-this-song" ){
             getSong(userSearch);
-        } else if( userCommand === "concert this" ){
+        }
+         else if( userCommand === "concert this" ){
             getBand(userSearch);
         } else if( userCommand === "movie-this"){
             getMovie(userSearch);
